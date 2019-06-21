@@ -4,5 +4,5 @@ Scratchx Arduino ESP
 http://scratchx.org/#scratch
 2. Click (scratchx) "Load Experimental Extension" 
 3. Select Open an Extension URL
-Load directly at Scratchx (copy-past this url)
+Load directly at Scratchx (copy-paste this url)
 http://www.sfyrakis.gr/esp/webarduino.js
