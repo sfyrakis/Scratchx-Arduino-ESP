@@ -1,4 +1,6 @@
 (function(ext) {
+    var output = '';
+
     // Cleanup function when the extension is unloaded
     ext._shutdown = function() {};
     // Status reporting code
@@ -6,108 +8,82 @@
     ext._getStatus = function() {
         return {status: 2, msg: 'Ready'};
     };
-    var output = '';
-    var filler = '';
-    var pop = '';
-    var area = '';
-    var request_option = '?fullText=true';
-    //var url_beginning = 'https://restcountries.eu/rest/v1/name/';
-	//var test1 = "https://ghibliapi.herokuapp.com/films";
-	var test1="https://raw.githubusercontent.com/sfyrakis/test2/master/greece.json";
 
+
+    ext.Put_Ajax_Data = function(location, MyNameVar, MyValue, callback) {
+        if(location=="")
+			if(url_beginning!="")
+				location=url_beginning;
+			else
+				callback("Error URL!!!");
+				
+        $.ajax({
+           url: location,
+           type: 'GET',
+		   dataType: "json",
+           data: MyNameVar+"="+MyValue,
+           success: function(data) {
+                //alert('Load was performed.');
+				//console.log("url:"+url);  
+				callback(1);
+           },
+		   error: function (data, status, error) {
+				console.log('error', data, status, error);
+	  	        console.log("Error !!!");
+				alert("setup Chrome https://chrome.google.com/webstore/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf/related?hl=en");
+				callback("Error URL!!!");
+				
+		   }
+        });
+		//window.open(url, '_blank');
+		//console.log("url:"+url);                                                    
+    };
 	
     ext.ArduinoURL = function(location) {
         //window.open(location, '_blank');
 		url_beginning =location;
     };
-	
-    ext.getInfo = function(option, country, callback) {
- 	  //alert("1");	
-      var fullNameRequest = new XMLHttpRequest();
-	  //alert("2");
-      fullNameRequest.onreadystatechange = function() {
-        if (fullNameRequest.readyState === XMLHttpRequest.DONE) {
-          var fullNameText = fullNameRequest.responseText;
-		  alert(fullNameText);
-          try {
-            switch (option) {
-              case 'Capital':      output = JSON.parse(fullNameText)[0].capital;         break;
-              case 'Region':       output = JSON.parse(fullNameText)[0].region;          break;
-              case 'Sub-Region':   output = JSON.parse(fullNameText)[0].subregion;       break;
-              case 'Native Name':  output = JSON.parse(fullNameText)[0].nativeName;      break;
-              case 'Calling Code': output = JSON.parse(fullNameText)[0].callingCodes[0]; break;
-            }
-            if (output === '' || output == ' ') {
-              output = 'This country has no ' + option + '.';
-            }
-            callback(output);
-            output = '';
-            filler = '';
-          } catch (e) {
-			   output = 'This country has no ' + option + '.';
-               alert("Error!!!");
-			   callback(output);
-          }
-        }
-      };
-	  //alert(test1);
-      //fullNameRequest.open("GET", url_beginning + country + request_option);
-	  fullNameRequest.open("GET", url_beginning,true);
-	  //alert(url_beginning + country + request_option);
-      fullNameRequest.send();
-    };
+		
 
 	
-    ext.get_ajax_data = function(location, callback) {
-        // Make an AJAX call to the Open Weather Maps API
-		//alert("temperature 1");
-
+    ext.Get_Ajax_Data = function(location, MyNameVar, callback) {
+        if(location=="")
+			if(url_beginning!="")
+				location=url_beginning;
+			else
+				callback("Error URL!!!");
+				
+		
 		$.ajax({
-			//setup https://chrome.google.com/webstore/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf/related?hl=en
-	         //url: 'https://raw.githubusercontent.com/sfyrakis/test2/master/greece.json',
-			 //url: "http://nominatim.openstreetmap.org/search/",
-			 //url: 'https://api.wheretheiss.at/v1/satellites/255440',
-			 //url: 'https://restcountries.eu/rest/v1/name/greece',
-             url: 'https://localhost/test/greece.json',
+			 url: location,
              type: "GET",
              dataType: 'json',
-			 /*
-	         headers: {
-                 'Access-Control-Allow-Credentials' : true,
-                 'Access-Control-Allow-Origin':'*',
-                 'Access-Control-Allow-Methods':'GET'
-             },*/
-            //crossDomain: true,
-            //contentType: "application/json",
-	        //async: false,
-            cache: true,
-            success: function (data, status, error) {
-				capital = data[0]['capital'];
+             cache: true,
+             success: function (data, status, error) {
+				output = data[0][MyNameVar];
 				console.log('success', data);
-	  		    console.log("OK !!!");
-				//alert("temperature OK");
-				callback(capital);
-			},
-			error: function (data, status, error) {
+				callback(output);
+			 },
+			 error: function (data, status, error) {
 				console.log('error', data, status, error);
 	  	        console.log("Error !!!");
-				//alert("temperature 2");
+				alert("setup Chrome https://chrome.google.com/webstore/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf/related?hl=en");
 				callback("Error !!!");
-			}
+			 }
 		});
     };
 
     // Block and block menu descriptions
     var descriptor = {
         blocks: [
-          [' ', 'open Arduino URL %s', 'ArduinoURL', 'https://raw.githubusercontent.com/sfyrakis/test2/master/greece.json'],
-		  ['R', '%m.option_input of %s', 'getInfo', 'Capital', 'Afghanistan'],
-		  ['R', 'current temperature in city %s', 'get_ajax_data', 'Boston, MA']
+          [' ', 'Open Arduino URL %s', 'ArduinoURL', 'http://10.0.0.179/'],
+		  ['w', 'Send Arduino URL %s Variable %s %m.option_put', 'Put_Ajax_Data', 'http://10.0.0.179/','5','on'],
+		  ['R', 'Get  Arduino URL %s Variable %s', 'Get_Ajax_Data', '', 'A0']
         ],
         menus: {
-          option_input: ['Calling Code', 'Capital', 'Native Name', 'Region', 'Sub-Region']
+		  option_put: ['on', 'off']
         },
-        url: 'http://nathanfi.github.io/ScratchX/CountryInfo/README.md'
+        url: 'http://www.sfyrakis.gr/esp/README.md'
     };
 
     // Register the extension
