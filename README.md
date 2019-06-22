@@ -1,11 +1,12 @@
 # Scratchx-Arduino-ESP
+<h3>Scratchx-Arduino-ESP</h1>
 Α. 
 1. Εγκαταστήστε το Arduino IDE 
 https://www.arduino.cc/en/Main/Software
 2. Ρυθμίστε το Arduino IDE για να βλέπει το ESP8266 
 https://randomnerdtutorials.com/how-to-install-esp8266-board-arduino-ide/
 
-Installing the ESP8266 Board 
+<h3>Installing the ESP8266 Board</h3>
 
 To install the ESP8266 board in your Arduino IDE, follow these next instructions:<br>
 i) Open the preferences window from the Arduino IDE. Go to File > Preferences
