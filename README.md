@@ -4,8 +4,10 @@
 https://www.arduino.cc/en/Main/Software
 2. Ρυθμίστε το Arduino IDE για να βλέπει το ESP8266 
 https://randomnerdtutorials.com/how-to-install-esp8266-board-arduino-ide/
-Installing the ESP8266 Board
-To install the ESP8266 board in your Arduino IDE, follow these next instructions:
+
+Installing the ESP8266 Board 
+
+To install the ESP8266 board in your Arduino IDE, follow these next instructions:<br>
 i) Open the preferences window from the Arduino IDE. Go to File > Preferences
 ii) Enter http://arduino.esp8266.com/stable/package_esp8266com_index.json into the “Additional Board Manager URLs” field as shown in the figure below. Then, click the “OK” button.
 iii) Open boards manager. Go to Tools > Board > Boards Manager…
